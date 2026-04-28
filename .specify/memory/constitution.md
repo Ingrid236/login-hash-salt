@@ -1,50 +1,50 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+Sync Impact Report:
+- Version change: 0.0.0 -> 1.0.0
+- Modified principles:
+  - PRINCIPLE_1_NAME -> I. Separation of Concerns (Frontend/Backend)
+  - PRINCIPLE_2_NAME -> II. Clean Code & Architectural Organization
+  - PRINCIPLE_3_NAME -> III. Secure Authentication & Data Persistence
+  - PRINCIPLE_4_NAME -> IV. Backend Dominance
+  - PRINCIPLE_5_NAME -> Removed
+- Added sections: Core Principles, Additional Constraints, Development Workflow, Governance
+- Removed sections: Principle 5
+- Templates requiring updates:
+  - ⚠ .specify/templates/plan-template.md
+  - ⚠ .specify/templates/spec-template.md
+  - ⚠ .specify/templates/tasks-template.md
+- Follow-up TODOs: None
+-->
+
+# Java Login Hash System Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Separation of Concerns (Frontend/Backend)
+The backend exclusively handles business logic, security, and data persistence. The frontend is strictly responsible for the user interface and presentation. No business logic shall reside in the frontend.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### II. Clean Code & Architectural Organization
+The codebase must adhere to strict Clean Code norms and architectural patterns (e.g., SRP, MVC/Clean Architecture) to ensure high cohesion and low coupling. All structures must be highly organized.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### III. Secure Authentication & Data Persistence
+User passwords must never be stored in plain text. The application must utilize industry-standard cryptographic hashing algorithms with salt (e.g., BCrypt, Argon2) for persisting user credentials in the database.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### IV. Backend Dominance
+Any remote communication must be handled through clear interfaces. The backend is the single source of truth for the application's state, logic, and security validations.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+## Additional Constraints
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+- **Language & Tech Stack**: Java for the backend services.
+- **Database**: Must use a secure database setup to persist users and passwords.
+- **Security**: Must implement Hash & Salt mechanisms for all password operations. Vulnerabilities such as SQL Injection or insecure data storage must be strictly avoided.
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+## Development Workflow
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
-
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+- Code must pass through code review ensuring Clean Code standards are meticulously met.
+- Security audits on authentication mechanisms must be performed before any integration or deployment.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+All PRs/reviews must verify compliance with the Core Principles. Security protocols (Hash & Salt) are non-negotiable and must be verified by automated tests or rigorous code review.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 1.0.0 | **Ratified**: 2026-04-28 | **Last Amended**: 2026-04-28
