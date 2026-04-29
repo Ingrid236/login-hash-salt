@@ -1,46 +1,44 @@
 package br.com.login.login_hash.service;
 
 import br.com.login.login_hash.dto.LoginRequestDTO;
-import br.com.login.login_hash.entity.Usuario;
 import br.com.login.login_hash.exception.CredenciaisInvalidasException;
-import br.com.login.login_hash.repository.UsuarioRepository;
-import br.com.login.login_hash.security.PasswordHasher;
+import br.com.login.login_hash.security.JwtService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 /**
  * Serviço responsável pela autenticação de usuários.
  * Responsabilidade única: orquestrar o fluxo de login
- * (busca por email, verificação de hash e validação de credenciais).
+ * e retornar o token JWT.
  */
 @Service
 @RequiredArgsConstructor
 public class LoginService {
 
-    private final UsuarioRepository usuarioRepository;
-    private final PasswordHasher passwordHasher;
+    private final AuthenticationManager authenticationManager;
+    private final JwtService jwtService;
 
     /**
-     * Realiza a autenticação do usuário.
+     * Realiza a autenticação do usuário e gera o token.
      *
-     * @param request dados de login (email e senha)
-     * @return o usuário autenticado
-     * @throws CredenciaisInvalidasException se email não existir ou senha não conferir
+     * @param request dados de login (identifier e senha)
+     * @return o token JWT gerado
      */
-    public Usuario autenticar(LoginRequestDTO request) {
-        Usuario usuario = usuarioRepository.findByEmail(request.getEmail())
-                .orElseThrow(CredenciaisInvalidasException::new);
+    public String autenticar(LoginRequestDTO request) {
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(request.getIdentifier(), request.getSenha())
+            );
 
-        boolean senhaValida = passwordHasher.verificarSenha(
-                request.getSenha(),
-                usuario.getSalt(),
-                usuario.getSenhaHash()
-        );
-
-        if (!senhaValida) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            return jwtService.generateToken(userDetails);
+            
+        } catch (Exception e) {
             throw new CredenciaisInvalidasException();
         }
-
-        return usuario;
     }
 }

@@ -1,14 +1,10 @@
 <!--
 Sync Impact Report:
-- Version change: 0.0.0 -> 1.0.0
+- Version change: 1.0.0 -> 1.1.0
 - Modified principles:
-  - PRINCIPLE_1_NAME -> I. Separation of Concerns (Frontend/Backend)
-  - PRINCIPLE_2_NAME -> II. Clean Code & Architectural Organization
-  - PRINCIPLE_3_NAME -> III. Secure Authentication & Data Persistence
-  - PRINCIPLE_4_NAME -> IV. Backend Dominance
-  - PRINCIPLE_5_NAME -> Removed
-- Added sections: Core Principles, Additional Constraints, Development Workflow, Governance
-- Removed sections: Principle 5
+  - Added V. Stateless Security & Identity
+- Added sections: None
+- Removed sections: None
 - Templates requiring updates:
   - ⚠ .specify/templates/plan-template.md
   - ⚠ .specify/templates/spec-template.md
@@ -32,11 +28,14 @@ User passwords must never be stored in plain text. The application must utilize 
 ### IV. Backend Dominance
 Any remote communication must be handled through clear interfaces. The backend is the single source of truth for the application's state, logic, and security validations.
 
+### V. Stateless Security & Identity
+The system relies on stateless JSON Web Tokens (JWT) for session management. Security against brute-force attacks must be inherently handled via progressive rate limiting. The system universally supports authentication via either Email or Username.
+
 ## Additional Constraints
 
 - **Language & Tech Stack**: Java for the backend services.
 - **Database**: Must use a secure database setup to persist users and passwords.
-- **Security**: Must implement Hash & Salt mechanisms for all password operations. Vulnerabilities such as SQL Injection or insecure data storage must be strictly avoided.
+- **Security**: Must implement Hash & Salt mechanisms for all password operations. Vulnerabilities such as SQL Injection or insecure data storage must be strictly avoided. Secure time-bound tokens must be used for any reset/verification flows.
 
 ## Development Workflow
 
@@ -45,6 +44,6 @@ Any remote communication must be handled through clear interfaces. The backend i
 
 ## Governance
 
-All PRs/reviews must verify compliance with the Core Principles. Security protocols (Hash & Salt) are non-negotiable and must be verified by automated tests or rigorous code review.
+All PRs/reviews must verify compliance with the Core Principles. Security protocols (Hash, Salt, JWT, Rate Limiting) are non-negotiable and must be verified by automated tests or rigorous code review.
 
-**Version**: 1.0.0 | **Ratified**: 2026-04-28 | **Last Amended**: 2026-04-28
+**Version**: 1.1.0 | **Ratified**: 2026-04-28 | **Last Amended**: 2026-04-28

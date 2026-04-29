@@ -9,28 +9,19 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * DTO para receber os dados de cadastro do usuário.
- * Responsabilidade única: transportar e validar dados de entrada do cadastro.
+ * DTO para receber dados de atualização de perfil (nome e email).
  */
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CadastroRequestDTO {
+public class UserUpdateRequestDTO {
 
     @NotBlank(message = "O nome é obrigatório")
     @Size(min = 3, max = 100, message = "O nome deve ter entre 3 e 100 caracteres")
     private String nome;
 
-    @NotBlank(message = "O username é obrigatório")
-    @Size(min = 3, max = 100, message = "O username deve ter entre 3 e 100 caracteres")
-    private String username;
-
     @NotBlank(message = "O email é obrigatório")
     @Email(message = "Formato de email inválido")
     private String email;
-
-    @NotBlank(message = "A senha é obrigatória")
-    @Size(min = 8, max = 100, message = "A senha deve ter entre 8 e 100 caracteres")
-    private String senha;
 }

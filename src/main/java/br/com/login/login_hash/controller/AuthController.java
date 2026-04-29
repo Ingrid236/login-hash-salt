@@ -22,6 +22,7 @@ public class AuthController {
 
     private final CadastroService cadastroService;
     private final LoginService loginService;
+    private final br.com.login.login_hash.service.PasswordResetService passwordResetService;
 
     /**
      * Endpoint para cadastro de novo usuário.
@@ -47,8 +48,20 @@ public class AuthController {
      */
     @PostMapping("/login")
     public ResponseEntity<ApiResponseDTO> login(@Valid @RequestBody LoginRequestDTO request) {
-        loginService.autenticar(request);
+        String token = loginService.autenticar(request);
         return ResponseEntity
-                .ok(ApiResponseDTO.sucesso("Login realizado com sucesso!"));
+                .ok(ApiResponseDTO.sucesso(token));
+    }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<ApiResponseDTO> forgotPassword(@Valid @RequestBody br.com.login.login_hash.dto.ForgotPasswordRequestDTO request) {
+        passwordResetService.generateResetToken(request.getEmail());
+        return ResponseEntity.ok(ApiResponseDTO.sucesso("Se o email existir, um link de recuperação será enviado."));
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<ApiResponseDTO> resetPassword(@Valid @RequestBody br.com.login.login_hash.dto.PasswordResetRequestDTO request) {
+        passwordResetService.resetPassword(request.getToken(), request.getNovaSenha());
+        return ResponseEntity.ok(ApiResponseDTO.sucesso("Senha alterada com sucesso."));
     }
 }

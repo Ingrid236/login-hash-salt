@@ -17,9 +17,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class LoginRequestDTO {
 
-    @NotBlank(message = "O email é obrigatório")
-    @Email(message = "Formato de email inválido")
-    private String email;
+    @NotBlank(message = "O identificador (email ou username) é obrigatório")
+    private String identifier;
 
     @NotBlank(message = "A senha é obrigatória")
     private String senha;

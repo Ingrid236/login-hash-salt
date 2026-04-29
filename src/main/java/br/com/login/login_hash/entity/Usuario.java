@@ -28,13 +28,19 @@ public class Usuario {
     private String nome;
 
     @Column(nullable = false, unique = true, length = 100)
+    private String username;
+
+    @Column(nullable = false, unique = true, length = 100)
     private String email;
 
     @Column(name = "senha_hash", nullable = false, length = 255)
     private String senhaHash;
 
-    @Column(nullable = false, length = 255)
-    private String salt;
+    @Column(name = "email_verified", nullable = false)
+    private boolean emailVerified = false;
+
+    @Column(nullable = false)
+    private boolean active = true;
 
     @Column(name = "data_criacao", nullable = false, updatable = false)
     private LocalDateTime dataCriacao;
