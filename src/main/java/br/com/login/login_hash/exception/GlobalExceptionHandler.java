@@ -23,6 +23,13 @@ public class GlobalExceptionHandler {
                 .body(ApiResponseDTO.erro(ex.getMessage()));
     }
 
+    @ExceptionHandler(UsernameDuplicadoException.class)
+    public ResponseEntity<ApiResponseDTO> handleUsernameDuplicado(UsernameDuplicadoException ex) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(ApiResponseDTO.erro(ex.getMessage()));
+    }
+
     @ExceptionHandler(CredenciaisInvalidasException.class)
     public ResponseEntity<ApiResponseDTO> handleCredenciaisInvalidas(CredenciaisInvalidasException ex) {
         return ResponseEntity
@@ -43,6 +50,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponseDTO> handleGenerico(Exception ex) {
+        ex.printStackTrace(); // Log for debugging
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(ApiResponseDTO.erro("Erro interno do servidor"));

@@ -3,6 +3,7 @@ package br.com.login.login_hash.service;
 import br.com.login.login_hash.dto.CadastroRequestDTO;
 import br.com.login.login_hash.entity.Usuario;
 import br.com.login.login_hash.exception.EmailDuplicadoException;
+import br.com.login.login_hash.exception.UsernameDuplicadoException;
 import br.com.login.login_hash.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -41,8 +42,9 @@ public class CadastroService {
         usuario.setActive(true);
         usuario.setEmailVerified(false);
 
-        // Here we could publish an event or call a MailService to send verification email
-        
+        // Here we could publish an event or call a MailService to send verification
+        // email
+
         return usuarioRepository.save(usuario);
     }
 
@@ -54,7 +56,7 @@ public class CadastroService {
             throw new EmailDuplicadoException(email);
         }
         if (usuarioRepository.existsByUsername(username)) {
-            throw new RuntimeException("Username já está em uso: " + username); // Could create a specific exception
+            throw new UsernameDuplicadoException(username);
         }
     }
 }

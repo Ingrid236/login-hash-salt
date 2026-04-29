@@ -62,5 +62,5 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
      * @param username username do usuário
      * @return Optional contendo o usuário, se encontrado
      */
-    Optional<Usuario> findByEmailOrUsername(String email, String username);
+    Optional<Usuario> findByEmailIgnoreCaseOrUsernameIgnoreCase(String email, String username);
 }
