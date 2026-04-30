@@ -1,7 +1,10 @@
 package br.com.login.login_hash.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,13 +18,38 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
+@Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiResponseDTO {
 
     private boolean sucesso;
     private String mensagem;
     private LocalDateTime timestamp;
+
+    public ApiResponseDTO(
+            @JsonProperty("sucesso") boolean sucesso,
+            @JsonProperty("mensagem") String mensagem,
+            @JsonProperty("timestamp") LocalDateTime timestamp) {
+        this.sucesso = sucesso;
+        this.mensagem = mensagem;
+        this.timestamp = timestamp != null ? timestamp : LocalDateTime.now();
+    }
+
+    public static ApiResponseDTO fromJson(String json) {
+        try {
+            return new ObjectMapper().findAndRegisterModules().readValue(json, ApiResponseDTO.class);
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao converter JSON para ApiResponseDTO", e);
+        }
+    }
+
+    public String toJson() {
+        try {
+            return new ObjectMapper().findAndRegisterModules().writeValueAsString(this);
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao converter ApiResponseDTO para JSON", e);
+        }
+    }
 
     /**
      * Cria uma resposta de sucesso.

@@ -43,6 +43,12 @@ public class RateLimitingFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         
+        // Ensure CORS preflight requests are never rate-limited
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+        
         // Only apply rate limiting to authentication endpoints to prevent brute force
         if (request.getRequestURI().startsWith("/api/auth/login")) {
             Bucket bucket = resolveBucket(request);
