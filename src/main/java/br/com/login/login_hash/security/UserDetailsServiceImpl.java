@@ -3,13 +3,12 @@ package br.com.login.login_hash.security;
 import br.com.login.login_hash.entity.Usuario;
 import br.com.login.login_hash.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +23,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException(
                         "Usuário não encontrado com o identificador: " + identifier));
 
+        java.util.List<SimpleGrantedAuthority> authorities = java.util.List.of(new SimpleGrantedAuthority("ROLE_USER"));
+
         return new User(
                 usuario.getUsername(),
                 usuario.getSenhaHash(),
@@ -31,7 +32,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 true,
                 true,
                 true,
-                new ArrayList<>() // No roles for MVP
+                authorities
         );
     }
 }

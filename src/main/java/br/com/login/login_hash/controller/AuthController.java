@@ -50,7 +50,7 @@ public class AuthController {
     public ResponseEntity<ApiResponseDTO> login(@Valid @RequestBody LoginRequestDTO request) {
         String token = loginService.autenticar(request);
         return ResponseEntity
-                .ok(ApiResponseDTO.sucesso(token));
+                .ok(ApiResponseDTO.sucesso("Login realizado com sucesso", token));
     }
 
     @PostMapping("/forgot-password")

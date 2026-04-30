@@ -3,7 +3,6 @@ package br.com.login.login_hash.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,14 +23,17 @@ public class ApiResponseDTO {
 
     private boolean sucesso;
     private String mensagem;
+    private Object dados;
     private LocalDateTime timestamp;
 
     public ApiResponseDTO(
             @JsonProperty("sucesso") boolean sucesso,
             @JsonProperty("mensagem") String mensagem,
+            @JsonProperty("dados") Object dados,
             @JsonProperty("timestamp") LocalDateTime timestamp) {
         this.sucesso = sucesso;
         this.mensagem = mensagem;
+        this.dados = dados;
         this.timestamp = timestamp != null ? timestamp : LocalDateTime.now();
     }
 
@@ -52,13 +54,24 @@ public class ApiResponseDTO {
     }
 
     /**
-     * Cria uma resposta de sucesso.
+     * Cria uma resposta de sucesso básica.
      *
      * @param mensagem mensagem de sucesso
      * @return ApiResponseDTO configurado para sucesso
      */
     public static ApiResponseDTO sucesso(String mensagem) {
-        return new ApiResponseDTO(true, mensagem, LocalDateTime.now());
+        return new ApiResponseDTO(true, mensagem, null, LocalDateTime.now());
+    }
+
+    /**
+     * Cria uma resposta de sucesso com dados.
+     *
+     * @param mensagem mensagem de sucesso
+     * @param dados dados a serem retornados
+     * @return ApiResponseDTO configurado para sucesso com dados
+     */
+    public static ApiResponseDTO sucesso(String mensagem, Object dados) {
+        return new ApiResponseDTO(true, mensagem, dados, LocalDateTime.now());
     }
 
     /**
@@ -68,6 +81,6 @@ public class ApiResponseDTO {
      * @return ApiResponseDTO configurado para erro
      */
     public static ApiResponseDTO erro(String mensagem) {
-        return new ApiResponseDTO(false, mensagem, LocalDateTime.now());
+        return new ApiResponseDTO(false, mensagem, null, LocalDateTime.now());
     }
 }

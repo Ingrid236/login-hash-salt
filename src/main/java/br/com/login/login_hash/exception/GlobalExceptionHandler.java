@@ -7,12 +7,14 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import lombok.extern.slf4j.Slf4j;
 import java.util.stream.Collectors;
 
 /**
  * Tratador global de exceções da API.
  * Responsabilidade única: centralizar o tratamento de erros e padronizar respostas.
  */
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -50,7 +52,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponseDTO> handleGenerico(Exception ex) {
-        ex.printStackTrace(); // Log for debugging
+        log.error("Erro não esperado: ", ex);
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(ApiResponseDTO.erro("Erro interno do servidor"));
